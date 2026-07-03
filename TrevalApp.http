@@ -1,0 +1,6 @@
+@TrevalApp_HostAddress = http://localhost:5167
+
+GET {{TrevalApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
