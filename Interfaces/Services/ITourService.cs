@@ -11,4 +11,4 @@ public interface ITourService
     Task<TourDto> CreateAsync(CreateTourDto dto);
     Task<TourDto> UpdateAsync(Guid id, UpdateTourDto dto);
     Task DeleteAsync(Guid id);
-}
+} 

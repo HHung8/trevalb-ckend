@@ -67,17 +67,8 @@ public class Destinationservice : IDestinationService
         const string sql = @"SELECT * FROM get_featured_destinations({0})";
         var rows = await _context.Database.SqlQueryRaw<DestinationFeaturedResult>(sql,count).ToListAsync();
         return rows.Select(r => new DestinationDto(
-            r.Id,
-            r.Name,
-            r.Country,
-            r.City,
-            r.Description,
-            r.ThumbnailUrl,
-            r.Latitude,
-            r.Longitude,
-            r.IsFeatured,
-            (int)r.TourCount,
-            (int)r.HotelCount));
+            r.Id, r.Name, r.Country, r.City, r.Description, r.ThumbnailUrl,
+            r.Latitude, r.Longitude, r.IsFeatured, (int)r.TourCount, (int)r.HotelCount));
     }
 
     public async Task<DestinationDto> CreateAsync(CreateDestinationDto dto)
@@ -121,10 +112,12 @@ public class Destinationservice : IDestinationService
         {
             throw new NotFoundException("Destination", id);
         }
-        const string tourCountSql = @"SELECT COUNT(1) AS ""Value"" FROM tours WHERE ""DestinationId"" = {0} AND ""IsActive"" = true AND ""IsDeleted"" = false";
+        const string tourCountSql = @"SELECT COUNT(1) AS ""Value"" FROM ""Tours"" WHERE ""DestinationId"" = {0} AND ""IsActive"" = true AND ""IsDeleted"" = false";
         var tourCount = await _context.Database.SqlQueryRaw<long>(tourCountSql, id).FirstAsync();
-        const string hotelCountSql = @"SELECT COUNT(1) AS ""Value"" FROM hotels WHERE ""DestinationId"" = {0} AND ""IsActive"" = true AND ""IsDeleted"" = false";
+        
+        const string hotelCountSql = @"SELECT COUNT(1) AS ""Value"" FROM ""Hotels"" WHERE ""DestinationId"" = {0} AND ""IsActive"" = true AND ""IsDeleted"" = false";
         var hotelCont = await _context.Database.SqlQueryRaw<long>(hotelCountSql, id).FirstAsync();
+        
         return MapBasicToDto(result, (int)tourCount, (int)hotelCont);
     }
 

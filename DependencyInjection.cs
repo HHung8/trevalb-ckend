@@ -49,6 +49,7 @@
             //  Services
             services.AddScoped<IAuthService , AuthService>();
             services.AddScoped<IDestinationService, Destinationservice>();
+            services.AddScoped<ITourService, Toursrvice>();
             return services;
         }
     }

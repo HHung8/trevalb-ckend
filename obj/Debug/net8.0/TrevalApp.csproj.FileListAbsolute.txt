@@ -112,3 +112,4 @@
 /Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/obj/Debug/net8.0/TrevalApp.sourcelink.json
