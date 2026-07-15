@@ -50,6 +50,8 @@
             services.AddScoped<IAuthService , AuthService>();
             services.AddScoped<IDestinationService, Destinationservice>();
             services.AddScoped<ITourService, Toursrvice>();
+            services.AddScoped<IHotelService, Hotelservice>();
+            services.AddScoped<IBookingService, Bookingservice>();
             return services;
         }
     }
