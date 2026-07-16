@@ -1,5 +1,17 @@
 namespace TrevalApp.DTOs.Tour;
 
 public record TourScheduleDto(
-    Guid Id, DateTime StartDate, DateTime EndDate, int AvailableSlots, decimal? OverridePrice
+        Guid Id, 
+        Guid TourId,
+        DateTime StartDate, 
+        DateTime EndDate, 
+        int AvailableSlots, 
+        decimal? OverridePrice
+    );
+    
+public record CreateTourScheduleDto(
+        DateTime StartDate,
+        DateTime EndDate,
+        int AvailableSlots,
+        decimal? OverridePrice
     );
