@@ -25,13 +25,12 @@
                     options.Password.RequiredLength = 8;
                     options.Password.RequireDigit = true;
                     options.Password.RequireUppercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireNonAlphanumeric = false; 
                     options.User.RequireUniqueEmail = true;
                     options.SignIn.RequireConfirmedEmail = false;
                 })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
-            
             // Redis
             // var redisConnectionString = configuration.GetSection("Redis:ConnectionString").Value ?? "localhost:6379";
             // services.AddSingleton<IConnectionMultiplexer>(_ =>
@@ -51,7 +50,14 @@
             services.AddScoped<IDestinationService, Destinationservice>();
             services.AddScoped<ITourService, Toursrvice>();
             services.AddScoped<IHotelService, Hotelservice>();
-            services.AddScoped<IBookingService, Bookingservice>();
+            services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<ITourScheduleService, TourScheduleService>();
+            services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IWishlistService, WishlistService>();
+            services.AddScoped<IAttractionService, AttractionService>();
             return services;
         }
     }

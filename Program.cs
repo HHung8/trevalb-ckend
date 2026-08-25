@@ -6,16 +6,13 @@ using Microsoft.OpenApi.Models;
 using TravelApp.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Controller
 builder.Services.AddControllers();
-
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrevalApp API", Version = "v1" });
-
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "Nhập JWT token theo dạng: Bearer {token}",
@@ -25,7 +22,6 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer", 
         BearerFormat = "JWT",
     });
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -39,9 +35,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddInfrastructure(builder.Configuration);
-
-var jwtSecretKey = builder.Configuration["JwtSettings:SecretKey"]
-    ?? throw new InvalidOperationException("Thiếu JwtSettings:SecretKey trong appsettings.json");
+var jwtSecretKey = builder.Configuration["JwtSettings:SecretKey"] ?? throw new InvalidOperationException("Thiếu JwtSettings:SecretKey trong appsettings.json");
 var jwtIssuer = builder.Configuration["JwtSettings:Issuer"];
 var jwtAudience = builder.Configuration["JwtSettings:Audience"];
 
@@ -66,9 +60,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddAuthorization();
-
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -76,7 +68,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 // ============================================================
 // QUAN TRỌNG: 2 dòng này PHẢI có, và PHẢI đứng TRƯỚC MapControllers.
 // Thiếu 2 dòng này -> mọi request tới [Authorize] luôn bị 401,
@@ -84,6 +75,5 @@ app.UseHttpsRedirection();
 // ============================================================
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 app.Run();

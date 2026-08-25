@@ -1,4 +1,6 @@
 using TrevalApp.DTOs.Booking;
+using TrevalApp.Models;
+
 namespace TrevalApp.Interfaces.Services;
 
 public interface IBookingService
@@ -11,4 +13,5 @@ public interface IBookingService
     Task<HotelBookingDto> GetHotelBookingByIdAsync(Guid id, Guid userId);
     Task CancelTourBookingAsync(Guid id, Guid userId);
     Task CancelHotelBookingAsync(Guid id, Guid userId);
+    Task<BookingPublicInfoResult?> GetPublicInfoAsync(Guid bookingId);
 }

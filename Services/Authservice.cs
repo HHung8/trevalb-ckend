@@ -38,7 +38,7 @@ public class AuthService : IAuthService
             result = await _context.Database
                 .SqlQueryRaw<UserResult>(sql, dto.Email, dto.FullName, passwordHash, dto.Phone).FirstAsync();
         }
-        catch (Exception ex) when(ex.Message == "EMAIL_ALREADY_EXISTS")
+        catch (PostgresException ex) when(ex.Message == "EMAIL_ALREADY_EXISTS")
         {
             throw new ConflictException("Email này đã được sử dụng.");
         }

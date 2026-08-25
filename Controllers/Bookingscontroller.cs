@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelApp.Infrastructure.Data.Helpers;
+using TravelApp.Infrastructure.Helpers;
 using TrevalApp.DTOs.APIRESPONSE;
 using TrevalApp.DTOs.Booking;
 using TrevalApp.Interfaces.Services;
 
 namespace TravelApp.Infrastructure.Data.Controllers;
 
-
+[ApiController]
+[Route("api/bookings")]
+[Authorize]
 public class BookingsController : ControllerBase
 {
     private readonly IBookingService _bookingService;
@@ -26,7 +30,7 @@ public class BookingsController : ControllerBase
 
     [HttpGet("tours")]
     public async Task<IActionResult> GetMyTourBookings()
-    {
+    {   
         var result = await _bookingService.GetUserTourBookingsAsync(User.GetUserId());
         return Ok(ApiResponse<IEnumerable<TourBookingDto>>.Ok(result));
     }
@@ -37,7 +41,7 @@ public class BookingsController : ControllerBase
         var result = await _bookingService.GetTourBookingByIdAsync(id, User.GetUserId());
         return Ok(ApiResponse<TourBookingDto>.Ok(result));
     }
-    
+     
     [HttpPost("tours/{id:guid}/cancel")]
     public async Task<IActionResult> CancelTourBooking(Guid id)
     {
@@ -76,6 +80,18 @@ public class BookingsController : ControllerBase
         await _bookingService.CancelHotelBookingAsync(id, User.GetUserId());
         return Ok(ApiResponse<object>.Ok(new { }, "Hủy booking phòng thành công."));
     }
+
+    [HttpGet("verify/{bookingId}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> VerifyBooking(Guid bookingId)
+    {
+        var booking = await _bookingService.GetPublicInfoAsync(bookingId);
+        var html = booking == null
+            ? BookingHtmlBuilder.BuildNotFoundHtml()
+            : BookingHtmlBuilder.BuildSuccessHtml(booking);
+        return Content(html, "text/html");
+    }
+    
     
 
 }

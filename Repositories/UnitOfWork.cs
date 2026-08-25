@@ -7,7 +7,6 @@ namespace TravelApp.Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
- 
     private IUserRepository? _users;
     private IDestinationRepository? _destinations;
     private ITourRepository? _tours;
@@ -39,6 +38,5 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Notification> Notifications => _notifications ??= new GenericRepository<Notification>(_context);
     public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
     public void Dispose() => _context.Dispose();
-
-
+    
 }

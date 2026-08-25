@@ -13,5 +13,5 @@ public record CreateTourScheduleDto(
         DateTime StartDate,
         DateTime EndDate,
         int AvailableSlots,
-        decimal? OverridePrice
+        decimal? OverridePrice = null
     );

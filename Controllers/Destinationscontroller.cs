@@ -64,3 +64,4 @@ public class DestinationsController : ControllerBase
         return Ok(ApiResponse<object>.Ok(new {}, "Deleted Destination Success"));
     }
 }
+

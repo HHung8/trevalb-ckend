@@ -1,3 +1,5 @@
+
+
 namespace TrevalApp.DTOs.Hotel;
 
 public record HotelDetailDto(

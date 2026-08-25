@@ -1,10 +1,20 @@
 namespace TrevalApp.DTOs.Hotel;
 
 public record CreateRoomDto(
-    Guid HotelId, 
-    string RoomType, 
+    string RoomType,
     string? Description,
-    decimal PricePerNight, 
-    int Capacity, 
-    string? Amenities, 
-    int TotalRooms = 1);
+    decimal PricePerNight,
+    int Capacity,
+    int TotalRooms,
+    string? Amenities
+);
+
+public record UpdateRoomDto(
+    string? RoomType,
+    string? Description,
+    decimal? PricePerNight,
+    int? Capacity,
+    int? TotalRooms,
+    string? Amenities,
+    bool? IsAvailable
+);
