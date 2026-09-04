@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrevalApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+955a75df95399dc9f60bb42ad3895337b025c603")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3be921f509989e21fa6a59b5ddd4d18420319874")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrevalApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrevalApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
