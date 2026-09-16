@@ -1,15 +1,16 @@
 namespace TrevalApp.DTOs.Booking;
 
 public record HotelBookingDto(
-    Guid Id, 
-    string BookingCode, 
-    Guid RoomId, 
+    Guid Id,
+    string BookingCode,
+    Guid RoomId,
+    Guid HotelId,
     string RoomType,
-    string HotelName, 
+    string HotelName,
     string? ThumbnailUrl,
-    DateTime CheckIn, 
-    DateTime CheckOut, 
-    int NumGuests, 
-    decimal TotalPrice, 
-    string Status, 
+    DateTime CheckIn,
+    DateTime CheckOut,
+    int NumGuests,
+    decimal TotalPrice,
+    string Status,
     DateTime CreatedAt);

@@ -139,7 +139,21 @@ public class ReviewService : IReviewService
             throw new NotFoundException("ReviewImage", imageId);
         }
     }
-    
+
+    public async Task<PagedResultDto<MyReviewDto>> GetMineAsync(Guid userId, ReviewQueryDto query)
+    {
+        const string sql = @"SELECT * FROM get_user_reviews({0}, {1}, {2})";
+        var rows = await _context.Database
+            .SqlQueryRaw<MyReviewResult>(sql, userId, query.Page, query.PageSize)
+            .ToListAsync();
+        var total = rows.FirstOrDefault()?.TotalCount ?? 0;
+        var dtos = rows.Select(r => new MyReviewDto(
+            r.Id, r.TargetType, r.TargetId, r.TargetTitle, r.ThumbnailUrl,
+            r.Rating, r.Comment, r.IsVerified, r.CreatedAt));
+        return new PagedResultDto<MyReviewDto>(dtos, (int)total, query.Page, query.PageSize,
+            (int)Math.Ceiling(total / (double)query.PageSize));
+    }
+
     private static ReviewDto MapToDto(ReviewBasicResult r, string userName, string? avatarUrl) =>
         new(r.Id, r.UserId, userName, avatarUrl, r.TargetType, r.TargetId,
             r.Rating, r.Comment, r.IsVerified, r.CreatedAt);

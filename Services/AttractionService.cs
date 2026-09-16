@@ -116,6 +116,48 @@ public class AttractionService : IAttractionService
         return MapToDto(result, string.Empty);
     }
 
+    public async Task<IEnumerable<AttractionScheduleDto>> GetAttractionSchedulesAsync(Guid attractionId)
+    {
+        const string sql = @"SELECT * FROM get_attraction_schedules({0})";
+        var rows = await _context.Database
+            .SqlQueryRaw<AttractionScheduleResult>(sql, attractionId).ToListAsync();
+
+        return rows.Select(r => new AttractionScheduleDto(
+            r.Id, r.AttractionId, r.VisitDate, r.AvailableSlots, r.OverridePrice));
+    }
+
+    public async Task<AttractionScheduleDto> CreateAttractionScheduleAsync(CreateAttractionScheduleDto dto)
+    {
+        const string sql = @"SELECT * FROM create_attraction_schedule({0}, {1}, {2}, {3})";
+        AttractionScheduleResult result;
+        try
+        {
+            result = await _context.Database.SqlQueryRaw<AttractionScheduleResult>(sql, 
+                dto.AttractionId,
+                dto.VisitDate,
+                dto.AvailableSlots, 
+                (object?)dto.OverridePrice ?? DBNull.Value)
+                .FirstAsync();
+        }
+        catch (PostgresException ex) when (ex.MessageText == "ATTRACTION_NOT_FOUND")
+        { throw new NotFoundException("Attraction", dto.AttractionId); }
+        catch (PostgresException ex) when (ex.MessageText == "INVALID_SLOTS")
+        { throw new BadRequestException("Số lượng slot không hợp lệ."); }
+        return new AttractionScheduleDto(result.Id, result.AttractionId, result.VisitDate, result.AvailableSlots,
+            result.OverridePrice);
+    }
+
+    public async Task DeleteAttractionScheduleAsync(Guid id)
+    {
+        const string sql = @"SELECT delete_attraction_schedule({0}";
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(sql, id);
+        }
+        catch (PostgresException ex) when (ex.MessageText == "SCHEDULE_NOT_FOUND")
+        { throw new NotFoundException("AttractionSchedule", id); }
+    }
+
     public async Task DeleteAsync(Guid id)
     {
         const string sql = @"SELECT delete_attraction({0})";
@@ -129,7 +171,7 @@ public class AttractionService : IAttractionService
         }
 
     }
-
+    
     private static AttractionDto MapToDto(AttractionBasicResult r, string destinationName) => new(
         r.Id, r.DestinationId, destinationName, r.Name, r.Category, r.Description,
         r.ThumbnailUrl, r.Latitude, r.Longitude, r.OpeningHours, r.EntryFee, r.Website

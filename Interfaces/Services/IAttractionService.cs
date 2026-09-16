@@ -10,5 +10,9 @@ public interface IAttractionService
     Task<IEnumerable<AttractionSimpleDto>> GetByDestinationAsync(Guid destinationId);
     Task<AttractionDto> CreateAsync(CreateAttractionDto dto);
     Task<AttractionDto> UpdateAsync(Guid id, UpdateAttractionDto dto);
+    // IAttractionService
+    Task<IEnumerable<AttractionScheduleDto>> GetAttractionSchedulesAsync(Guid attractionId);
+    Task<AttractionScheduleDto> CreateAttractionScheduleAsync(CreateAttractionScheduleDto dto);
+    Task DeleteAttractionScheduleAsync(Guid id);
     Task DeleteAsync(Guid id);
 }

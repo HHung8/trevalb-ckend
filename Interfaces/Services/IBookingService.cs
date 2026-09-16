@@ -14,4 +14,8 @@ public interface IBookingService
     Task CancelTourBookingAsync(Guid id, Guid userId);
     Task CancelHotelBookingAsync(Guid id, Guid userId);
     Task<BookingPublicInfoResult?> GetPublicInfoAsync(Guid bookingId);
+    Task<AttractionBookingDto> CreateAttractionBookingAsync(Guid userId, CreateAttractionBookingDto dto);
+    Task<IEnumerable<AttractionBookingDto>> GetUserAttractionBookingsAsync(Guid userId);
+    Task<AttractionBookingDto> GetAttractionBookingByIdAsync(Guid id, Guid userId);
+    Task CancelAttractionBookingAsync(Guid id, Guid userId);
 }

@@ -19,6 +19,7 @@ public class HotelBookingResult
     public Guid Id { get; set; }
     public string BookingCode { get; set; } = string.Empty;
     public Guid RoomId { get; set; }
+    public Guid HotelId { get; set; }
     public string RoomType { get; set; } = string.Empty;
     public string HotelName { get; set; } = string.Empty;
     public string? ThumbnailUrl { get; set; }

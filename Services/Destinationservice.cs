@@ -51,7 +51,7 @@ public class Destinationservice : IDestinationService
             detail.Id,
             detail.Name,
             detail.Country,
-            detail.City,
+            detail.City,    
             detail.Description,
             detail.ThumbnailUrl,
             detail.Latitude,

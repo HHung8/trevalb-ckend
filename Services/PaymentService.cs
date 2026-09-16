@@ -10,7 +10,14 @@ namespace TravelApp.Infrastructure.Data.Services;
 public class PaymentService : IPaymentService
 {
     private readonly AppDbContext _context;
-    public PaymentService(AppDbContext context) => _context = context;
+    private readonly INotificationService _notificationService;
+    
+    public PaymentService(AppDbContext context, INotificationService notificationService)
+    {
+        _context = context;
+        _notificationService = notificationService;
+    }
+
     public async Task<PaymentDto> CreateAsync(Guid userId, CreatePaymentDto dto)
     {
         const string sql = @"SELECT * FROM create_payment({0},{1},{2},{3},{4})";
@@ -91,7 +98,18 @@ public class PaymentService : IPaymentService
         {
             throw new NotFoundException("Payment", id);
         }
-
+        
+        if (result.BookingType == "tour")
+        {
+            await _notificationService.CreateAsync(
+                result.UserId,
+                "payment_success",
+                "Thanh toán thành công",
+                $"Thanh toán ${result.Amount} cho đơn tour đã thành công.",
+                $"booking-detail?type=tour&bookingId={result.BookingId}"
+            );
+        }
+        
         return MapToDto(result);
     }
     
@@ -107,7 +125,7 @@ public class PaymentService : IPaymentService
         {
             throw new NotFoundException("Payment", id);
         }
-    }
+    }   
 
     public async Task RefundAsync(Guid id)
     {

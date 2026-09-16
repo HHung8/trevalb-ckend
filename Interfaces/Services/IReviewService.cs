@@ -11,4 +11,5 @@ public interface IReviewService
     Task DeleteAsync(Guid id, Guid userId);
     Task<ReviewImageDto> AddImageAsync(Guid reviewId, AddReviewImageDto dto);
     Task DeleteImageAsync(Guid imageId);
+    Task<PagedResultDto<MyReviewDto>> GetMineAsync(Guid userId, ReviewQueryDto query);
 }

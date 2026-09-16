@@ -11,7 +11,6 @@ namespace TravelApp.Infrastructure.Data.Services;
 public class Toursrvice : ITourService
 {
     private readonly AppDbContext _context;
-
     public Toursrvice(AppDbContext context)
     {
         _context = context;

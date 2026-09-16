@@ -10,9 +10,11 @@ namespace TravelApp.Infrastructure.Data.Services;
 public class BookingService : IBookingService
 {
     private readonly AppDbContext _context;
-    public BookingService(AppDbContext context)
+    private readonly INotificationService _notificationService;
+    public BookingService(AppDbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
  
     public async Task<TourBookingDto> CreateTourBookingAsync(Guid userId, CreateTourBookingDto dto)
@@ -57,7 +59,14 @@ public class BookingService : IBookingService
             catch (PostgresException ex) when (ex.MessageText == "EXCEEDS_CAPACITY")
                 { throw new BadRequestException("Số lượng khách vượt quá sức chứa của tour."); }
         }
- 
+
+        await _notificationService.CreateAsync(
+            userId,
+            "booking_success",
+            "Đặt tour thành công", 
+            $"{result.TourTitle} đã được đặt. Vui lòng thanh toan để xác nhận",
+            $"booking-detail?type=tour&bookingId={result.Id}"
+            );
         return MapToTourDto(result);
     }
  
@@ -151,11 +160,87 @@ public class BookingService : IBookingService
         return rows.FirstOrDefault();
     }
 
+    public async Task<AttractionBookingDto> CreateAttractionBookingAsync(Guid userId, CreateAttractionBookingDto dto)
+    {
+        const string sql = @"SELECT * FROM create_attraction_booking({0},{1},{2},{3},{4})";
+        AttractionBookingResult result;
+        try
+        {
+            result = await _context.Database.SqlQueryRaw<AttractionBookingResult>(sql, userId, dto.AttractionId, dto.ScheduleId, dto.NumGuests, (object?)dto.SpecialRequest ?? DBNull.Value).FirstAsync();
+        }
+        catch (PostgresException ex) when (ex.MessageText == "ATTRACTION_NOT_FOUND")
+        { throw new NotFoundException("Attraction", dto.AttractionId); }
+        catch (PostgresException ex) when (ex.MessageText == "SCHEDULE_NOT_FOUND")
+        { throw new NotFoundException("AttractionSchedule", dto.ScheduleId); }
+        catch (PostgresException ex) when (ex.MessageText == "NOT_ENOUGH_SLOTS")
+        { throw new BadRequestException("Không đủ chỗ cho lịch tham quan này."); }
+        return MapToAttractionDto(result);
+    }
+
+    public async Task<IEnumerable<AttractionBookingDto>> GetUserAttractionBookingsAsync(Guid userId)
+    {
+        const string sql = @"SELECT * FROM get_user_attraction_bookings({0})";
+        var rows = await _context.Database
+            .SqlQueryRaw<AttractionBookingResult>(sql, userId).ToListAsync();
+        return rows.Select(MapToAttractionDto);
+    }
+
+    public async Task<AttractionBookingDto> GetAttractionBookingByIdAsync(Guid id, Guid userId)
+    {
+        const string sql = @"SELECT * FROM get_attraction_booking_by_id({0},{1})";
+        AttractionBookingResult result;
+        try
+        {
+            result = await _context.Database
+                .SqlQueryRaw<AttractionBookingResult>(sql, id, userId).FirstAsync();
+        }
+        catch (PostgresException ex) when (ex.MessageText == "BOOKING_NOT_FOUND")
+        { throw new NotFoundException("AttractionBooking", id); }
+        return MapToAttractionDto(result);
+    }
+
+    public async Task CancelAttractionBookingAsync(Guid id, Guid userId)
+    {
+        const string sql = @"SELECT cancel_attraction_booking({0},{1})";
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(sql, id, userId);
+        }
+        catch (PostgresException ex) when (ex.MessageText == "BOOKING_NOT_FOUND_OR_CANNOT_CANCEL")
+        {
+            throw new BadRequestException("Booking không tồn tại hoặc không thể hủy.");
+        }
+    }
+
     private static TourBookingDto MapToTourDto(TourBookingResult r) =>
         new(r.Id, r.BookingCode, r.TourId, r.TourTitle, r.ThumbnailUrl,
             r.NumGuests, r.TotalPrice, r.Status, r.TravelDate, r.CreatedAt);
  
     private static HotelBookingDto MapToHotelDto(HotelBookingResult r) =>
-        new(r.Id, r.BookingCode, r.RoomId, r.RoomType, r.HotelName, r.ThumbnailUrl,
+        new(r.Id, r.BookingCode, r.RoomId, r.HotelId, r.RoomType, r.HotelName, r.ThumbnailUrl,
             r.CheckIn, r.CheckOut, r.NumGuests, r.TotalPrice, r.Status, r.CreatedAt);
+    
+    private static AttractionBookingDto MapToAttractionDto(AttractionBookingResult r) =>
+        new(r.Id, r.BookingCode, r.AttractionId, r.AttractionName, r.ThumbnailUrl,
+            r.NumGuests, r.VisitDate, r.TotalPrice, r.Status, r.CreatedAt);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

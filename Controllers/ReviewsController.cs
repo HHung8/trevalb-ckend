@@ -67,4 +67,12 @@ public class ReviewsController : ControllerBase
         await _reviewService.DeleteImageAsync(imageId);
         return Ok(ApiResponse<object>.Ok(new { }, "Xóa ảnh đánh giá thành công."));
     }
+    
+    [Authorize]
+    [HttpGet("mine")]
+    public async Task<IActionResult> GetMine([FromQuery] ReviewQueryDto query)
+    {
+        var result = await _reviewService.GetMineAsync(User.GetUserId(), query);
+        return Ok(ApiResponse<object>.Ok(result));
+    }
 }

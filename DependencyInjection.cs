@@ -59,6 +59,7 @@
             services.AddScoped<IWishlistService, WishlistService>();
             services.AddScoped<IAttractionService, AttractionService>();
             services.AddScoped<IRoomImageService, RoomImageService>();
+            services.AddScoped<INotificationService, NotificationService>();
             return services;
         }
     }

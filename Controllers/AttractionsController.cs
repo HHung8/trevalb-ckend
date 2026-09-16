@@ -33,7 +33,14 @@ public class AttractionsController : ControllerBase
         var result = await _attractionService.GetByDestinationAsync(destinationId);
         return Ok(ApiResponse<IEnumerable<AttractionSimpleDto>>.Ok(result));
     }
-
+    
+    [HttpGet("{id:guid}/schedules")]
+    public async Task<IActionResult> GetSchedules(Guid id)
+    {
+        var schedules = await _attractionService.GetAttractionSchedulesAsync(id);
+        return Ok(ApiResponse<IEnumerable<AttractionScheduleDto>>.Ok(schedules));
+    }
+    
     [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateAttractionDto dto)

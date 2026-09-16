@@ -41,6 +41,21 @@ public class ReviewBasicResult
     public DateTimeOffset CreatedAt { get; set; }
 }
 
+public class MyReviewResult
+{
+    public Guid Id { get; set; }
+    public string TargetType { get; set; } = null!;
+    public Guid TargetId { get; set; }
+    public string TargetTitle { get; set; } = null!;
+    public string? ThumbnailUrl { get; set; }
+    public int Rating { get; set; }
+    public string? Comment { get; set; }
+    public bool IsVerified { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public long TotalCount { get; set; }
+    
+}
+
 public class ReviewImageResult
 {
     public Guid Id { get; set; }

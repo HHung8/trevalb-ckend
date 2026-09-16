@@ -27,6 +27,19 @@ public record ReviewDetailDto(
     IEnumerable<ReviewImageDto> Images
 );
 
+public record MyReviewDto(
+    Guid Id,
+    string TargetType,
+    Guid TargetId,
+    string TargetTitle,
+    string? ThumbnailUrl,
+    int Rating,
+    string? Comment,
+    bool IsVerified,
+    DateTimeOffset CreatedAt
+);
+
+
 public record ReviewImageDto(
     Guid Id,
     string ImageUrl,

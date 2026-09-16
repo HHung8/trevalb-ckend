@@ -92,6 +92,34 @@ public class BookingsController : ControllerBase
         return Content(html, "text/html");
     }
     
+    [HttpPost("attractions")]
+    public async Task<IActionResult> CreateAttractionBooking([FromBody] CreateAttractionBookingDto dto)
+    {
+        var result = await _bookingService.CreateAttractionBookingAsync(User.GetUserId(), dto);
+        return Ok(ApiResponse<AttractionBookingDto>.Ok(result, "Đặt vé thành công. Vui lòng thanh toán để xác nhận."));
+    }
+
+    [HttpGet("attractions")]
+    public async Task<IActionResult> GetMyAttractionBookings()
+    {
+        var result = await _bookingService.GetUserAttractionBookingsAsync(User.GetUserId());
+        return Ok(ApiResponse<IEnumerable<AttractionBookingDto>>.Ok(result));
+    }
+
+    [HttpGet("attractions/{id:guid}")]
+    public async Task<IActionResult> GetAttractionBooking(Guid id)
+    {
+        var result = await _bookingService.GetAttractionBookingByIdAsync(id, User.GetUserId());
+        return Ok(ApiResponse<AttractionBookingDto>.Ok(result));
+    }
+
+    [HttpPost("attractions/{id:guid}/cancel")]
+    public async Task<IActionResult> CancelAttractionBooking(Guid id)
+    {
+        await _bookingService.CancelAttractionBookingAsync(id, User.GetUserId());
+        return Ok(ApiResponse<object>.Ok(new { }, "Hủy booking vé tham quan thành công."));
+    }
+    
     
 
 }
