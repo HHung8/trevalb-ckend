@@ -78,7 +78,9 @@ public class BookingService : IBookingService
         {
             result = await _context.Database
                 .SqlQueryRaw<HotelBookingResult>(sql,
-                    userId, dto.RoomId, dto.CheckIn, dto.CheckOut,
+                    userId, dto.RoomId, 
+                    DateTime.SpecifyKind(dto.CheckIn, DateTimeKind.Utc),   
+                    DateTime.SpecifyKind(dto.CheckOut, DateTimeKind.Utc),   
                     dto.NumGuests,
                     (object?)dto.SpecialRequest ?? DBNull.Value)
                 .FirstAsync();
@@ -89,7 +91,14 @@ public class BookingService : IBookingService
             { throw new BadRequestException("Số lượng khách vượt quá sức chứa của phòng."); }
         catch (PostgresException ex) when (ex.MessageText == "ROOM_NOT_AVAILABLE")
             { throw new ConflictException("Phòng đã được đặt trong khoảng thời gian này."); }
- 
+
+        await _notificationService.CreateAsync(
+            userId,
+            "booking_success",
+            "Đặt phòng thành công",
+            $"{result.HotelName} ({result.RoomType}) đã đặt được. Vui lòng thanh toán để xác nhận",
+            $"booking-detail?type=hotel&bookingId={result.Id}"  
+        );
         return MapToHotelDto(result);
     }
  
@@ -143,6 +152,15 @@ public class BookingService : IBookingService
         try { await _context.Database.ExecuteSqlRawAsync(sql, id, userId); }
         catch (PostgresException ex) when (ex.MessageText == "BOOKING_NOT_FOUND_OR_CANNOT_CANCEL")
             { throw new BadRequestException("Booking không tồn tại hoặc không thể hủy."); }
+
+        var booking = await GetTourBookingByIdAsync(id, userId);
+        await _notificationService.CreateAsync(
+            userId,
+            "booking_cancelled",
+            "Đã huỷ đặt tour",
+            $"Đặt chỗ cho {booking.TourTitle} đã được huỷ.",
+            $"booking-detail?type=tour&bookingId={id}"
+        );
     }
  
     public async Task CancelHotelBookingAsync(Guid id, Guid userId)
@@ -151,6 +169,14 @@ public class BookingService : IBookingService
         try { await _context.Database.ExecuteSqlRawAsync(sql, id, userId); }
         catch (PostgresException ex) when (ex.MessageText == "BOOKING_NOT_FOUND_OR_CANNOT_CANCEL")
             { throw new BadRequestException("Booking không tồn tại hoặc không thể hủy."); }
+        var booking = await GetHotelBookingByIdAsync(id, userId);
+        await _notificationService.CreateAsync(
+            userId,
+            "booking_cancelled",
+            "Đã huỷ đặt phòng",
+            $"Đặt phòng tại {booking.HotelName} đã huỷ",
+            $"booking-detail?type=tour&bookingId={id}"
+        );
     }
 
     public async Task<BookingPublicInfoResult?> GetPublicInfoAsync(Guid bookingId)

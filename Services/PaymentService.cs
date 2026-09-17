@@ -99,17 +99,17 @@ public class PaymentService : IPaymentService
             throw new NotFoundException("Payment", id);
         }
         
-        if (result.BookingType == "tour")
+        if (result.BookingType == "tour" || result.BookingType == "hotel")
         {
+            var typeLabel = result.BookingType == "tour" ? "tour" : "hotel";
             await _notificationService.CreateAsync(
                 result.UserId,
                 "payment_success",
                 "Thanh toán thành công",
-                $"Thanh toán ${result.Amount} cho đơn tour đã thành công.",
-                $"booking-detail?type=tour&bookingId={result.BookingId}"
+                $"Thanh toán ${result.Amount} cho đơn {typeLabel} đã thành công.",
+                $"booking-detail?type={result.BookingType}&bookingId={result.BookingId}"
             );
         }
-        
         return MapToDto(result);
     }
     
