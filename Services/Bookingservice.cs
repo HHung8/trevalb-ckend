@@ -175,7 +175,7 @@ public class BookingService : IBookingService
             "booking_cancelled",
             "Đã huỷ đặt phòng",
             $"Đặt phòng tại {booking.HotelName} đã huỷ",
-            $"booking-detail?type=tour&bookingId={id}"
+            $"booking-detail?type=hotel&bookingId={id}"
         );
     }
 
@@ -200,6 +200,14 @@ public class BookingService : IBookingService
         { throw new NotFoundException("AttractionSchedule", dto.ScheduleId); }
         catch (PostgresException ex) when (ex.MessageText == "NOT_ENOUGH_SLOTS")
         { throw new BadRequestException("Không đủ chỗ cho lịch tham quan này."); }
+
+        await _notificationService.CreateAsync(
+            userId,
+            "booking_success",
+            "Đặt vé thành công",
+            $"{result.AttractionName} đã đặt được. Vui lòng thanh toán để xác nhận.",
+            $"booking-detail?type=attraction&bookingId={result.Id}"
+        );
         return MapToAttractionDto(result);
     }
 
@@ -236,6 +244,14 @@ public class BookingService : IBookingService
         {
             throw new BadRequestException("Booking không tồn tại hoặc không thể hủy.");
         }
+        var booking = await GetAttractionBookingByIdAsync(id, userId);
+        await _notificationService.CreateAsync(
+            userId,
+            "booking_cancel",
+            "Đã huỷ đặt vé",
+                $"Đặt vé cho {booking.AttractionName} đã được huỷ .",
+                $"booking-detail?type=attraction&bookingId={booking.Id}"
+            );
     }
 
     private static TourBookingDto MapToTourDto(TourBookingResult r) =>

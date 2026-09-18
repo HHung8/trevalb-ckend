@@ -99,9 +99,15 @@ public class PaymentService : IPaymentService
             throw new NotFoundException("Payment", id);
         }
         
-        if (result.BookingType == "tour" || result.BookingType == "hotel")
+        if (result.BookingType == "tour" || result.BookingType == "hotel" || result.BookingType == "attraction")
         {
-            var typeLabel = result.BookingType == "tour" ? "tour" : "hotel";
+            var typeLabel = result.BookingType switch
+            {
+                "tour" => "tour",
+                "hotel" => "hotel",
+                "attraction" => "vé tham quan",
+                _ => result.BookingType
+            };
             await _notificationService.CreateAsync(
                 result.UserId,
                 "payment_success",

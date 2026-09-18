@@ -70,9 +70,10 @@ public class ReviewService : IReviewService
         { throw new NotFoundException("Tour", dto.TargetId); }
         catch (PostgresException ex) when (ex.MessageText == "HOTEL_NOT_FOUND")
         { throw new NotFoundException("Hotel", dto.TargetId); }
+        catch (PostgresException ex) when( ex.MessageText == "ATTRACTION_NOT_FOUND")
+        { throw new NotFoundException("Attraction", dto.TargetId); }
         catch (PostgresException ex) when (ex.MessageText == "ALREADY_REVIEWED")
         { throw new ConflictException("Bạn đã đánh giá mục này rồi."); }
-
         return MapToDto(result, string.Empty, null);
     }
 
