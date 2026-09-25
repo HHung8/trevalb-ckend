@@ -98,7 +98,10 @@ public class PaymentService : IPaymentService
         {
             throw new NotFoundException("Payment", id);
         }
-        
+        catch (PostgresException ex) when (ex.MessageText == "INVALID_PAYMENT_STATUS")
+        {
+            throw new ConflictException("Giao dịch đã ở trạng thái khác, không thể xác nhận lại.");
+        }
         if (result.BookingType == "tour" || result.BookingType == "hotel" || result.BookingType == "attraction")
         {
             var typeLabel = result.BookingType switch

@@ -44,3 +44,20 @@ public record PaymentQueryDto(
     int Page = 1,
     int PageSize = 10
 );
+
+public record PaymentMethodDto(
+    Guid Id,
+    string Brand,
+    string Last4,
+    int ExpiryMonth,
+    int ExpiryYear,
+    bool IsDefault,
+    DateTimeOffset CreatedAt
+    );
+
+public record AddPaymentMethodDto(
+        string Brand,
+        string Last4,
+        int ExpiryMonth,
+        int ExpiryYear
+    );

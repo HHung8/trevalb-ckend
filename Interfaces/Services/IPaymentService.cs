@@ -1,5 +1,4 @@
 using TrevalApp.DTOs.Common;
-using TrevalApp.DTOs.Payment;
 namespace TrevalApp.Interfaces.Services;
 
 public interface IPaymentService

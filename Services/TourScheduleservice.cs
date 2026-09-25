@@ -38,7 +38,6 @@ public class TourScheduleService : ITourScheduleService
             await using var cmd = conn.CreateCommand();
             cmd.CommandText = @"SELECT * FROM create_tour_schedule(
                 @tourId, @startDate, @endDate, @availableSlots, @overridePrice)";
- 
             cmd.Parameters.AddWithValue("tourId", tourId);
             cmd.Parameters.AddWithValue("startDate", dto.StartDate);
             cmd.Parameters.AddWithValue("endDate", dto.EndDate);

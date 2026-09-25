@@ -42,13 +42,13 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<object>.Ok(new { }, "Đăng xuất thành công."));
     }
 
-    [Authorize]
-    [HttpPost("change-password")]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
-    {
-        await _authService.ChangePasswordAsync(User.GetUserId(), dto);
-        return Ok(ApiResponse<object>.Ok(new {}, "Change Password Successfully"));
-    }
+    // [Authorize]
+    // [HttpPost("change-password")]
+    // public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+    // {
+    //     await _authService.ChangePasswordAsync(User.GetUserId(), dto);
+    //     return Ok(ApiResponse<object>.Ok(new {}, "Change Password Successfully"));
+    // }
     
     
 }   
