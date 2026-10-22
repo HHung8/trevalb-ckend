@@ -22,7 +22,7 @@ public class PaymentsController : ControllerBase
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
-    {
+    {   
         var result = await _paymentService.GetByIdAsync(id, User.GetUserId());
         return Ok(ApiResponse<PaymentDetailDto>.Ok(result));
     }

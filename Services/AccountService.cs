@@ -40,25 +40,30 @@ public class AccountService : IAccountService
     public async Task ChangePasswordAsync(Guid userId, ChangePasswordDto dto)
     {
         const string getHashSql = @"SELECT * FROM get_user_password_hash({0})";
-        var current = await _context.Database
-            .SqlQueryRaw<PasswordHashResult>(getHashSql, userId)
+        var hashResult = await _context.Database.SqlQueryRaw<PasswordHashResult>(getHashSql, userId)
             .FirstOrDefaultAsync();
+        if (hashResult == null)
+            throw new NotFoundException("User", userId);
 
-        if (current is null)
+        var tempUser = new User { Id = userId };
+        var verifyResult = _passwordHasher.VerifyHashedPassword(tempUser, hashResult.PasswordHash, dto.CurrentPassword);
+        if (verifyResult == PasswordVerificationResult.Failed)
+            throw new BadRequestException("Current password is incorrect.");
+
+        var newHash = _passwordHasher.HashPassword(tempUser, dto.NewPassword);
+
+        const string updateSql = @"SELECT update_user_password({0}, {1})";
+        const string revokeSql = @"SELECT logout_user({0})";
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(updateSql, userId, newHash);
+            // Thu hồi refresh token cũ để các thiết bị khác phải đăng nhập lại
+            await _context.Database.ExecuteSqlRawAsync(revokeSql, userId);
+        }
+        catch (PostgresException ex) when (ex.MessageText == "USER_NOT_FOUND")
         {
             throw new NotFoundException("User", userId);
         }
-
-        var verifyResult = _passwordHasher.VerifyHashedPassword(new object(), current.PasswordHash, dto.CurrentPassword);
-        if (verifyResult == PasswordVerificationResult.Failed)
-        {
-            throw new BadRequestException("Mật khẩu hiện tại không đúng.");
-        }
-
-        var newHash = _passwordHasher.HashPassword(new object(), dto.NewPassword);
-
-        const string updateSql = @"SELECT update_user_password({0},{1})";
-        await _context.Database.ExecuteSqlRawAsync(updateSql, userId, newHash);
     }
 
     public async Task DeleteAccountAsync(Guid userId)

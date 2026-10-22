@@ -62,6 +62,7 @@
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IPaymentMethodService, PaymentMethodService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }

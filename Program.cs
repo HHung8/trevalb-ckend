@@ -8,10 +8,24 @@ using TravelApp.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 // Controller
 builder.Services.AddControllers();
+
+const string FrontendCors = "frontend";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+                     ?? new[] { "http://localhost:5173", "http://127.0.0.1:5173" };
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(FrontendCors, policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader() 
+        .AllowAnyMethod());
+});
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.CustomSchemaIds(type => type.FullName);
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrevalApp API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -67,7 +81,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// [SỬA] Chỉ chuyển hướng HTTPS ở môi trường thật. Ở dev, chuyển hướng làm hỏng preflight của CORS.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+app.UseStaticFiles();
+app.UseCors(FrontendCors);
 // ============================================================
 // QUAN TRỌNG: 2 dòng này PHẢI có, và PHẢI đứng TRƯỚC MapControllers.
 // Thiếu 2 dòng này -> mọi request tới [Authorize] luôn bị 401,
