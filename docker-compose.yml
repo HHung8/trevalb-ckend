@@ -1,0 +1,24 @@
+services:
+  api:
+    build: .
+    container_name: travelapp-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+
+      # "host.docker.internal" = máy Mac của bạn (Postgres local, cổng 5432).
+      # POSTGRES_USER / POSTGRES_PASSWORD phải là user và mật khẩu của Postgres LOCAL (cái bạn đang dùng trong DBeaver).
+      ConnectionStrings__DefaultConnection: Host=host.docker.internal;Port=5432;Database=${POSTGRES_DB:-travelapp};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}
+      Jwt__Key: ${JWT_KEY:?Hãy đặt JWT_KEY trong file .env}
+
+      # Địa chỉ giao diện được phép gọi API (CORS)
+      Cors__AllowedOrigins__0: http://localhost:8080
+    extra_hosts:
+      # Cần khi chạy trên Linux; trên Docker Desktop (Mac/Windows) thì thừa nhưng không gây hại
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "5167:8080" # cổng 5167 của máy bạn -> cổng 8080 trong container
+    # Bỏ comment nếu backend lưu ảnh tải lên vào thư mục trên ổ đĩa:
+    # volumes:
+    #   - ./uploads:/app/wwwroot/uploads
+    restart: unless-stopped

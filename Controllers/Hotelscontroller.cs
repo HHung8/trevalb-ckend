@@ -52,4 +52,14 @@ public class Hotelscontroller : ControllerBase
         await _hotelService.DeleteAsync(id);
         return Ok(ApiResponse<object>.Ok(new { }, "Xóa khách sạn thành công."));
     }
+
+    [Authorize(Roles = "admin,partner")]
+    [HttpPost("{id:guid}/images")]
+    [RequestSizeLimit(10 * 1024 * 1024)]
+    public async Task<IActionResult> UploadImage(Guid id, IFormFile file)
+    {
+        if (file == null || file.Length == 0) return BadRequest(ApiResponse<object>.Fail("Chưa chọn file ảnh"));
+        var url = await _hotelService.UploadThumbnailAsync(id, file);
+        return Ok(ApiResponse<object>.Ok(new { thumbnailUrl = url }, "Upload ảnh thành công."));
+    }
 }

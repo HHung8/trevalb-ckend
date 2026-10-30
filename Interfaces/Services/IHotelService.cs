@@ -9,5 +9,6 @@ public interface IHotelService
     Task<HotelDetailDto> GetByIdAsync(Guid id);
     Task<HotelDto> CreateAsync(CreateHotelDto dto);
     Task<HotelDto> UpdateAsync(Guid id, UpdateHotelDto dto);
+    Task<string> UploadThumbnailAsync(Guid hotelId, IFormFile file);
     Task DeleteAsync(Guid id);
 }

@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg",
+      "PackagePath": "staticwebassets/uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.TrevalApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.TrevalApp.props",
+      "PackagePath": "build\\TrevalApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.TrevalApp.props",
+      "PackagePath": "buildMultiTargeting\\TrevalApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.TrevalApp.props",
+      "PackagePath": "buildTransitive\\TrevalApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

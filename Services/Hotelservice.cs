@@ -6,16 +6,19 @@ using TrevalApp.DTOs.Common;
 using TrevalApp.DTOs.Hotel;
 using TrevalApp.Interfaces.Services;
 using TrevalApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace TravelApp.Infrastructure.Data.Services;
 
 public class Hotelservice : IHotelService   
 {
     private readonly AppDbContext _context;
-
-    public Hotelservice(AppDbContext context)
+    private readonly IWebHostEnvironment _env;
+    
+    public Hotelservice(AppDbContext context, IWebHostEnvironment env)
     {
         _context = context;
+        _env = env;
     }
     
     public async Task<PagedResultDto<HotelDto>> GetAllAsync(HotelQueryDto query)
@@ -131,6 +134,37 @@ public class Hotelservice : IHotelService
             throw new NotFoundException("Hotel", id);
         }
     }
+    
+    public async Task<string> UploadThumbnailAsync(Guid hotelId, IFormFile file)
+    {
+        var allowed = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+        var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if (!allowed.Contains(ext))
+            throw new ArgumentException("Chỉ hỗ trợ jpg, jpeg, png, webp.");
+
+        var webRoot = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+        var folder = Path.Combine(webRoot, "uploads", "hotels");
+        Directory.CreateDirectory(folder);
+
+        var fileName = $"{hotelId}_{Guid.NewGuid():N}{ext}";
+        var fullPath = Path.Combine(folder, fileName);
+        await using (var stream = new FileStream(fullPath, FileMode.Create))
+            await file.CopyToAsync(stream);
+
+        var url = $"/uploads/hotels/{fileName}";
+
+        var rows = await _context.Database.ExecuteSqlRawAsync(
+            @"UPDATE ""Hotels"" SET ""ThumbnailUrl"" = {0} WHERE ""Id"" = {1}", url, hotelId);
+
+        if (rows == 0)
+        {
+            File.Delete(fullPath);   // không có khách sạn thì xóa file vừa ghi
+            throw new NotFoundException("Hotel", hotelId);
+        }
+
+        return url;
+    }
+    
     private static HotelDto MapToDto(HotelBasicResult r, string destinationName, decimal? minRoomPrice) =>
         new(r.Id, r.Name, r.Address ?? string.Empty, r.StarRating, r.Description,
             r.ThumbnailUrl, r.Latitude, r.Longitude, r.AverageRating, r.ReviewCount,

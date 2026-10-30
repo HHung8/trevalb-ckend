@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "MR1Sa0hvbiMikwTZnJ2OcOvvAfJGjCer+Thw3OyDGQM=",
+  "Hash": "JGwwv/ZqbiIdxU3ca4Li3gxcI7u5PgoX5yS/hvVcLf0=",
   "Source": "TrevalApp",
   "BasePath": "_content/TrevalApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "TrevalApp/wwwroot",
+      "Source": "TrevalApp",
+      "ContentRoot": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/",
+      "BasePath": "_content/TrevalApp",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg",
+      "SourceId": "TrevalApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/",
+      "BasePath": "_content/TrevalApp",
+      "RelativePath": "uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg"
+    }
+  ]
 }
