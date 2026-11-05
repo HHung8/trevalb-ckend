@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "JGwwv/ZqbiIdxU3ca4Li3gxcI7u5PgoX5yS/hvVcLf0=",
+  "Hash": "Pp1qYgmqTUI3l0yt+CwLi1WfWXgzrO+OSR0EVmo+nVo=",
   "Source": "TrevalApp",
   "BasePath": "_content/TrevalApp",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/cb4285af-94b7-48dd-adf3-0ae1b7503a0c_b77c8601a5b8492ba07dd4af45ba5112.jpg",
+      "SourceId": "TrevalApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/",
+      "BasePath": "_content/TrevalApp",
+      "RelativePath": "uploads/hotels/cb4285af-94b7-48dd-adf3-0ae1b7503a0c_b77c8601a5b8492ba07dd4af45ba5112.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/hotels/cb4285af-94b7-48dd-adf3-0ae1b7503a0c_b77c8601a5b8492ba07dd4af45ba5112.jpg"
+    },
     {
       "Identity": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg",
       "SourceId": "TrevalApp",
@@ -34,6 +53,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/hotels/cd5e5e9e-e155-4179-8bf0-56fd12e184d8_077b1049cf3d4dba9fecdae7a5c92fef.jpg"
+    },
+    {
+      "Identity": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/tours/39ff2caa-b412-48ab-953d-a469d8e0f88e_08ed82de76ba4108a83be47e4e18398e.jpg",
+      "SourceId": "TrevalApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/",
+      "BasePath": "_content/TrevalApp",
+      "RelativePath": "uploads/tours/39ff2caa-b412-48ab-953d-a469d8e0f88e_08ed82de76ba4108a83be47e4e18398e.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/tours/39ff2caa-b412-48ab-953d-a469d8e0f88e_08ed82de76ba4108a83be47e4e18398e.jpg"
+    },
+    {
+      "Identity": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/tours/4ff4a6a3-2617-4a80-b10a-17106feb9bfe_9a690b43907047339697a6e2f1f8f629.jpg",
+      "SourceId": "TrevalApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/",
+      "BasePath": "_content/TrevalApp",
+      "RelativePath": "uploads/tours/4ff4a6a3-2617-4a80-b10a-17106feb9bfe_9a690b43907047339697a6e2f1f8f629.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/tours/4ff4a6a3-2617-4a80-b10a-17106feb9bfe_9a690b43907047339697a6e2f1f8f629.jpg"
     }
   ]
 }

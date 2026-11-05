@@ -10,5 +10,6 @@ public interface ITourService
     Task<IEnumerable<TourDto>> GetByDestinationAsync(Guid destinationId);
     Task<TourDto> CreateAsync(CreateTourDto dto);
     Task<TourDto> UpdateAsync(Guid id, UpdateTourDto dto);
+    Task<string> UploadThumbnailAsync(Guid tourId, IFormFile file);
     Task DeleteAsync(Guid id);
 } 

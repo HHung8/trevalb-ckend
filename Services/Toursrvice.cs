@@ -11,12 +11,13 @@ namespace TravelApp.Infrastructure.Data.Services;
 public class Toursrvice : ITourService
 {
     private readonly AppDbContext _context;
-    public Toursrvice(AppDbContext context)
+    private readonly IWebHostEnvironment _env;
+    public Toursrvice(AppDbContext context, IWebHostEnvironment env)
     {
         _context = context;
+        _env = env;
     }
-
-
+    
     public async Task<PagedResultDto<TourDto>> GetAllAsync(TourQueryDto query)
     {
         const string sql = @"SELECT * FROM search_tours({0}, {1}, {2}, {3}, {4}, {5}, {6})";
@@ -64,6 +65,8 @@ public class Toursrvice : ITourService
             Enumerable.Empty<TourScheduleDto>()
         );
     }
+    
+    
 
     public async Task<IEnumerable<TourDto>> GetByDestinationAsync(Guid destinationId)
     {
@@ -146,7 +149,35 @@ public class Toursrvice : ITourService
             throw new NotFoundException("Tour", id);
         }
     }
-    
+
+    public async Task<string> UploadThumbnailAsync(Guid tourId, IFormFile file)
+    {
+        var allowed = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+        var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if(!allowed.Contains(ext))
+            throw new ArgumentException("Chỉ hỗ trợ jpg, jpeg, png, webp.");
+        var webRoot = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+        var folder = Path.Combine(webRoot, "uploads", "tours");
+        Directory.CreateDirectory(folder);
+        
+        var fileName = $"{tourId}_{Guid.NewGuid():N}{ext}";
+        var fullPath = Path.Combine(folder, fileName);
+        await using (var stream = new FileStream(fullPath, FileMode.Create))
+            await file.CopyToAsync(stream);
+        var url = $"/uploads/tours/{fileName}";
+        
+        var rows = await _context.Database.ExecuteSqlRawAsync(
+            @"UPDATE ""Tours"" SET ""ThumbnailUrl"" = {0} WHERE ""Id"" = {1}", url, tourId);
+
+        if (rows == 0)
+        {
+            File.Delete(fullPath);
+            throw new NotFoundException("Tour", tourId);
+        }
+
+        return url;
+    }
+
     private static TourDto MapToDto(TourBasicResult r, string destinationName) =>
         new(r.Id, r.Title, r.Description, r.Price, r.DiscountPrice,
             r.DurationDays, r.MaxCapacity, r.Difficulty, r.ThumbnailUrl,

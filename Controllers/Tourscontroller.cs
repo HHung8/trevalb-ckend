@@ -58,7 +58,17 @@ public class ToursController : ControllerBase
         await _tourService.DeleteAsync(id);
         return Ok(ApiResponse<object>.Ok(new {}, "Deleted tour successfully"));
     }
-    
+
+    [Authorize(Roles = "admin, partner")]
+    [HttpPost("{id:guid}/images")]
+    [RequestSizeLimit(10 * 1024 * 1024)]
+    public async Task<IActionResult> UploadImages(Guid id, IFormFile file)
+    {
+        if(file == null || file.Length == 0)
+            return BadRequest(new {success = false, message = "Chưa chọn file ảnh" });
+        var url = await _tourService.UploadThumbnailAsync(id, file);
+        return Ok(ApiResponse<object>.Ok(new {thumbnail = url}, "Upload ảnh thành công."));
+    }
 }
 
 
