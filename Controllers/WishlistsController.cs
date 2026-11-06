@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TravelApp.Infrastructure.Data.DTOs.Wishlish;
 using TravelApp.Infrastructure.Data.Helpers;
 using TrevalApp.DTOs.APIRESPONSE;
+using TrevalApp.DTOs.Common;
 using TrevalApp.Interfaces.Services;
 
 namespace TravelApp.Infrastructure.Data.Controllers;
@@ -42,6 +43,20 @@ public class WishlistsController : ControllerBase
     {
         var result = await _wishlistService.GetHotelsAsync(User.GetUserId(), query);
         return Ok(ApiResponse<object>.Ok(result));
+    }
+    
+    [HttpGet("attractions")]
+    public async Task<IActionResult> GetAttractions([FromQuery] WishlistQueryDto query)
+    {
+        var result = await _wishlistService.GetAttractionsAsync(User.GetUserId(), query);
+        return Ok(ApiResponse<PagedResultDto<WishlistAttractionDto>>.Ok(result));
+    }
+
+    [HttpGet("destinations")]
+    public async Task<IActionResult> GetDestinations([FromQuery] WishlistQueryDto query)
+    {
+        var result = await _wishlistService.GetDestinationsAsync(User.GetUserId(), query);
+        return Ok(ApiResponse<PagedResultDto<WishlistDestinationDto>>.Ok(result));
     }
 
     [HttpDelete("{id:guid}")]

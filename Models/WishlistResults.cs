@@ -32,3 +32,30 @@ public class WishlistHotelResult
     public DateTimeOffset SavedAt { get; set; }
     public long TotalCount { get; set; }
 }
+
+public class WishlistAttractionResult
+{
+    public Guid WishlistId { get; set; }
+    public Guid Id { get; set; }
+    public Guid DestinationId { get; set; }
+    public string DestinationName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string? Category { get; set; }
+    public string? ThumbnailUrl { get; set; }
+    public decimal? EntryFee { get; set; }
+    public DateTime SavedAt { get; set; }
+    public long TotalCount { get; set; }
+}
+
+public class WishlistDestinationResult
+{
+    public Guid WishlistId { get; set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Country { get; set; }
+    public string? City { get; set; }
+    public string? ThumbnailUrl { get; set; }
+    public DateTime SavedAt { get; set; }
+    public long TotalCount { get; set; }
+}
+

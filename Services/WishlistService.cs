@@ -42,7 +42,9 @@ public class WishlistService : IWishlistService
         const string sql = @"SELECT is_wishlisted({0},{1},{2}) AS ""Value""";
         return await _context.Database.SqlQueryRaw<bool>(sql, userId, itemType, itemId).FirstAsync();
     }
-
+        
+    
+    
     public async Task<PagedResultDto<WishlistTourDto>> GetToursAsync(Guid userId, WishlistQueryDto query)
     {
         const string sql = @"SELECT * FROM get_user_wishlist_tours({0},{1},{2})";
@@ -73,6 +75,30 @@ public class WishlistService : IWishlistService
             (int)Math.Ceiling(total / (double)query.PageSize));
     }
 
+    public async Task<PagedResultDto<WishlistAttractionDto>> GetAttractionsAsync(Guid userId, WishlistQueryDto query)
+    {   
+        const string sql = @"SELECT * FROM get_user_wishlist_attractions({0}, {1}, {2})";
+        var rows = await _context.Database.SqlQueryRaw<WishlistAttractionResult>(sql, userId, query.Page, query.PageSize)
+            .ToListAsync();
+        var total = rows.FirstOrDefault()?.TotalCount ?? 0;
+        var dtos = rows.Select(r => new WishlistAttractionDto(
+            r.WishlistId, r.Id, r.DestinationId, r.DestinationName,
+            r.Name, r.Category, r.ThumbnailUrl, r.EntryFee, r.SavedAt));
+        return new PagedResultDto<WishlistAttractionDto>(dtos, (int)total, query.Page, query.PageSize, (int)Math.Ceiling(total / (double)query.PageSize));
+    }
+
+    public async Task<PagedResultDto<WishlistDestinationDto>> GetDestinationsAsync(Guid userId, WishlistQueryDto query)
+    {
+        const string sql = @"SELECT * FROM get_user_wishlist_destinations({0}, {1}, {2})";
+        var rows = await _context.Database.SqlQueryRaw<WishlistDestinationResult>(sql, userId, query.Page, query.PageSize)
+            .ToListAsync();
+        var total = rows.FirstOrDefault()?.TotalCount ?? 0;
+        var dtos = rows.Select(r => new WishlistDestinationDto(
+            r.WishlistId, r.Id, r.Name, r.Country, r.City, r.ThumbnailUrl, r.SavedAt));
+        return new PagedResultDto<WishlistDestinationDto>(dtos, (int)total, query.Page, query.PageSize,
+            (int)Math.Ceiling(total / (double)query.PageSize));
+    }
+    
     public async Task RemoveAsync(Guid id, Guid userId)
     {
         const string sql = @"SELECT remove_from_wishlist({0},{1})";

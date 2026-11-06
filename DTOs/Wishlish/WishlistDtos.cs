@@ -40,3 +40,18 @@ public record WishlistQueryDto(
     int Page = 1,
     int PageSize = 10
 );
+
+public record WishlistAttractionDto(
+    Guid WishlistId,
+    Guid Id,
+    Guid DestinationId,
+    string DestinationName,
+    string Name,
+    string? Category,
+    string? ThumbnailUrl,
+    decimal? EntryFee,
+    DateTime SavedAt);
+    
+public record WishlistDestinationDto(
+    Guid WishlistId, Guid Id, string Name, string? Country, string? City,
+    string? ThumbnailUrl, DateTime SavedAt);

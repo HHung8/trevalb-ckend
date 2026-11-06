@@ -9,5 +9,7 @@ public interface IWishlistService
     Task<bool> IsWishlistedAsync(Guid userId, string itemType, Guid itemId);
     Task<PagedResultDto<WishlistTourDto>> GetToursAsync(Guid userId, WishlistQueryDto query);
     Task<PagedResultDto<WishlistHotelDto>> GetHotelsAsync(Guid userId, WishlistQueryDto query);
+    Task<PagedResultDto<WishlistAttractionDto>> GetAttractionsAsync(Guid userId, WishlistQueryDto query);
+    Task<PagedResultDto<WishlistDestinationDto>> GetDestinationsAsync(Guid userId, WishlistQueryDto query);
     Task RemoveAsync(Guid id, Guid userId);
 }
