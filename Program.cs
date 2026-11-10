@@ -82,10 +82,10 @@ if (app.Environment.IsDevelopment())
 }
 
 // [SỬA] Chỉ chuyển hướng HTTPS ở môi trường thật. Ở dev, chuyển hướng làm hỏng preflight của CORS.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// if (!app.Environment.IsDevelopment())
+// {
+//     app.UseHttpsRedirection();
+// }
 
 app.UseStaticFiles();
 app.UseCors(FrontendCors);

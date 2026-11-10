@@ -9,8 +9,9 @@ services:
       # "host.docker.internal" = máy Mac của bạn (Postgres local, cổng 5432).
       # POSTGRES_USER / POSTGRES_PASSWORD phải là user và mật khẩu của Postgres LOCAL (cái bạn đang dùng trong DBeaver).
       ConnectionStrings__DefaultConnection: Host=host.docker.internal;Port=5432;Database=${POSTGRES_DB:-travelapp};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}
-      Jwt__Key: ${JWT_KEY:?Hãy đặt JWT_KEY trong file .env}
-
+      JwtSettings__SecretKey: ${JWT_KEY:?Hãy đặt JWT_KEY trong file .env}
+      JwtSettings__Issuer: travelapp
+      JwtSettings__Audience: travelapp
       # Địa chỉ giao diện được phép gọi API (CORS)
       Cors__AllowedOrigins__0: http://localhost:8080
     extra_hosts:
