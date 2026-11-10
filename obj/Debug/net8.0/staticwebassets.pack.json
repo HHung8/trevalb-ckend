@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/78c7a426-2d0b-4124-a163-320e6d577154_467559055d374a9aa24256fa92b3f2f7.jpg",
+      "PackagePath": "staticwebassets/uploads/hotels/78c7a426-2d0b-4124-a163-320e6d577154_467559055d374a9aa24256fa92b3f2f7.jpg"
+    },
+    {
+      "Id": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/907fe343-d2b4-4fd5-9bfc-4a365547ff1e_fc7978805b274151a49a3d198ccbe73a.jpg",
+      "PackagePath": "staticwebassets/uploads/hotels/907fe343-d2b4-4fd5-9bfc-4a365547ff1e_fc7978805b274151a49a3d198ccbe73a.jpg"
+    },
+    {
       "Id": "/Users/hung/Documents/TrevalAppBE/TrevalApp/TrevalApp/wwwroot/uploads/hotels/cb4285af-94b7-48dd-adf3-0ae1b7503a0c_b77c8601a5b8492ba07dd4af45ba5112.jpg",
       "PackagePath": "staticwebassets/uploads/hotels/cb4285af-94b7-48dd-adf3-0ae1b7503a0c_b77c8601a5b8492ba07dd4af45ba5112.jpg"
     },

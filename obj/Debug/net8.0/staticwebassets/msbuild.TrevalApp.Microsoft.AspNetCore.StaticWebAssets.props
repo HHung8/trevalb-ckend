@@ -1,5 +1,37 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\hotels\78c7a426-2d0b-4124-a163-320e6d577154_467559055d374a9aa24256fa92b3f2f7.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>TrevalApp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/TrevalApp</BasePath>
+      <RelativePath>uploads/hotels/78c7a426-2d0b-4124-a163-320e6d577154_467559055d374a9aa24256fa92b3f2f7.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\hotels\78c7a426-2d0b-4124-a163-320e6d577154_467559055d374a9aa24256fa92b3f2f7.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\hotels\907fe343-d2b4-4fd5-9bfc-4a365547ff1e_fc7978805b274151a49a3d198ccbe73a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>TrevalApp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/TrevalApp</BasePath>
+      <RelativePath>uploads/hotels/907fe343-d2b4-4fd5-9bfc-4a365547ff1e_fc7978805b274151a49a3d198ccbe73a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\hotels\907fe343-d2b4-4fd5-9bfc-4a365547ff1e_fc7978805b274151a49a3d198ccbe73a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\hotels\cb4285af-94b7-48dd-adf3-0ae1b7503a0c_b77c8601a5b8492ba07dd4af45ba5112.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>TrevalApp</SourceId>
